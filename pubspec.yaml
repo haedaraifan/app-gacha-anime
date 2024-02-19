@@ -43,6 +43,7 @@ dependencies:
   flutter_staggered_grid_view:
   cached_network_image:
   simple_gesture_detector:
+  insta_image_viewer:
 
 dev_dependencies:
   flutter_test:

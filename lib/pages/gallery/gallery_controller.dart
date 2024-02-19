@@ -20,9 +20,5 @@ class GalleryController extends GetxController {
     List<Map<String, dynamic>> mapImages = await db.query("images");
     images = mapImages.map((e) => ImageModel.fromMap(map: e)).toList();
     isLoading.value = false;
-
-    print("gallery");
-    print("length : ${images.length}");
-    print(images[0].path);
   }
 }
