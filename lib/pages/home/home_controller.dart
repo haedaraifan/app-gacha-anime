@@ -7,6 +7,7 @@ import 'package:gacha/common/models/sqflite/image_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 import 'package:sqflite/sqflite.dart';
 
 class HomeController extends GetxController {
@@ -82,4 +83,8 @@ class HomeController extends GetxController {
     if(imagePath.startsWith("file://")) return imagePath.substring(7);
     return imagePath;
   }
+
+    void onHorizontalSwipe(SwipeDirection direction) {
+      if(direction == SwipeDirection.left) get();
+    }
 }

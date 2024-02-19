@@ -42,6 +42,7 @@ dependencies:
   image_gallery_saver:
   flutter_staggered_grid_view:
   cached_network_image:
+  simple_gesture_detector:
 
 dev_dependencies:
   flutter_test:

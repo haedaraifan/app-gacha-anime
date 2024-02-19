@@ -3,6 +3,7 @@ import 'package:gacha/common/widgets/bottom_navbar.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gacha/pages/home/home_controller.dart';
+import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -19,13 +20,17 @@ class HomePage extends GetView<HomeController> {
           children:[
             Center(
               child: Obx(
-                () => InkWell(
-                  onTap: controller.get,
+                () => SimpleGestureDetector(
+                  onHorizontalSwipe: controller.onHorizontalSwipe,
+                  swipeConfig: const SimpleSwipeConfig(
+                    horizontalThreshold: 40,
+                    swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct
+                  ),
                   child: CachedNetworkImage(
                     imageUrl: controller.imageUrl.value,
                     placeholder: (context, url) => const CircularProgressIndicator(),
                     errorWidget: (context, url, error) => const Icon(Icons.error),
-                  )
+                  ),
                 )
               )
             ),
