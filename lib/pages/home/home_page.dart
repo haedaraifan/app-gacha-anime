@@ -15,17 +15,33 @@ class HomePage extends GetView<HomeController> {
           onPressed: () => controller.save(context),
           child: const Icon(Icons.save),
         ),
-        body: Center(
-          child: Obx(
-            () => InkWell(
-              onTap: controller.get,
-              child: CachedNetworkImage(
-                imageUrl: controller.imageUrl.value,
-                placeholder: (context, url) => const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+        body: Stack(
+          children:[
+            Center(
+              child: Obx(
+                () => InkWell(
+                  onTap: controller.get,
+                  child: CachedNetworkImage(
+                    imageUrl: controller.imageUrl.value,
+                    placeholder: (context, url) => const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  )
+                )
               )
+            ),
+            Obx(
+              () => controller.isLoading.value
+              ? Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.black.withOpacity(0.2),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+              : Container()
             )
-          )
+          ] 
         ),
         bottomNavigationBar: const MyBottomNavigationBar(currentIndex: 0),
       )

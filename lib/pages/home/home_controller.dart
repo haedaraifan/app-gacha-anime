@@ -18,14 +18,15 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    imageUrl.value = "https://animeargentina.net/wp-content/uploads/2022/05/hotarun-non-non-biyori-1024x576.jpg";
     super.onInit();
+    imageUrl.value = "https://animeargentina.net/wp-content/uploads/2022/05/hotarun-non-non-biyori-1024x576.jpg";
+    get();
   }
 
   void get() async {
+    isLoading.value = true;
     try {
 
-      isLoading.value = true;
       final response = await http.get(
         Uri.parse("https://api.waifu.im/search?included_tags=waifu")
       );
@@ -37,15 +38,16 @@ class HomeController extends GetxController {
         print(url);
         imageUrl.value = url;
       }
-      isLoading.value = false;
 
     } catch(e) {
       print("error : $e");
     }
+    isLoading.value = false;
   }
 
   void save(BuildContext context) async {
     print("save!");
+    isLoading.value = true;
     ImageResponseModel target = model.value.images![0];
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
@@ -71,6 +73,7 @@ class HomeController extends GetxController {
       );
       print("save to db!");
       await db.insert("images", newImage.toMap());
+      isLoading.value = false;
       scaffoldMessenger.showSnackBar(const SnackBar(content: Text("image saved!")));
     }
   }
