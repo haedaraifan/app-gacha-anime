@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gacha/common/db/db_helper.dart';
 import 'package:gacha/common/models/api/waifu_model.dart';
 import 'package:gacha/common/models/sqflite/image_model.dart';
+import 'package:gacha/common/routes/routes.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -20,7 +21,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    imageUrl.value = "https://animeargentina.net/wp-content/uploads/2022/05/hotarun-non-non-biyori-1024x576.jpg";
+    imageUrl.value = "https://static.hillarys.co.uk/asset/media/9635/pure-white.jpg?mode=crop&mcb=5f884e47a7424cfe86340315ccaafed0";
     get();
   }
 
@@ -84,7 +85,11 @@ class HomeController extends GetxController {
     return imagePath;
   }
 
-    void onHorizontalSwipe(SwipeDirection direction) {
-      if(direction == SwipeDirection.left) get();
-    }
+  void onVerticalSwipe(SwipeDirection direction) {
+    if(direction == SwipeDirection.up) get();
+  }
+
+  void onHorizontalSwipe(SwipeDirection direction) {
+    if(direction == SwipeDirection.left) Get.toNamed(Routes.gallery);
+  }
 }

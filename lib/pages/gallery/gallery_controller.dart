@@ -1,6 +1,7 @@
 import 'package:gacha/common/db/db_helper.dart';
 import 'package:gacha/common/models/sqflite/image_model.dart';
 import 'package:get/get.dart';
+import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 import 'package:sqflite/sqflite.dart';
 
 class GalleryController extends GetxController {
@@ -20,5 +21,9 @@ class GalleryController extends GetxController {
     List<Map<String, dynamic>> mapImages = await db.query("images");
     images = mapImages.map((e) => ImageModel.fromMap(map: e)).toList();
     isLoading.value = false;
+  }
+
+  void onHorizontalSwipe(SwipeDirection direction) {
+    if(direction == SwipeDirection.right) Get.back();
   }
 }

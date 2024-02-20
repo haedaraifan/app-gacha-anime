@@ -12,43 +12,30 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {  
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.black,
         floatingActionButton: FloatingActionButton(
+          foregroundColor: Colors.pink,
+          backgroundColor: Colors.white,
           onPressed: () => controller.save(context),
-          child: const Icon(Icons.save),
+          child: const Icon(Icons.favorite),
         ),
-        body: Stack(
-          children:[
-            Center(
-              child: Obx(
-                () => SimpleGestureDetector(
-                  onHorizontalSwipe: controller.onHorizontalSwipe,
-                  swipeConfig: const SimpleSwipeConfig(
-                    horizontalThreshold: 40,
-                    swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct
-                  ),
-                  child: CachedNetworkImage(
-                    imageUrl: controller.imageUrl.value,
-                    placeholder: (context, url) => const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                  ),
-                )
-              )
+        body: SimpleGestureDetector(
+          onVerticalSwipe: controller.onVerticalSwipe,
+          onHorizontalSwipe: controller.onHorizontalSwipe,
+          swipeConfig: const SimpleSwipeConfig(
+            horizontalThreshold: 40,
+            swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct
+          ),
+          child: Center(
+            child: Obx(
+              () => CachedNetworkImage(
+                imageUrl: controller.imageUrl.value,
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
             ),
-            Obx(
-              () => controller.isLoading.value
-              ? Container(
-                width: double.infinity,
-                height: double.infinity,
-                color: Colors.black.withOpacity(0.2),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              )
-              : Container()
-            )
-          ] 
-        ),
-        bottomNavigationBar: const MyBottomNavigationBar(currentIndex: 0),
+          )
+        )
       )
     );
   }
