@@ -16,6 +16,7 @@ class HomeController extends GetxController {
   
   RxString imageUrl = "".obs;
   RxBool isLoading = false.obs;
+  RxBool isFavorite = false.obs;
   Rx<WaifuRes> model = WaifuRes().obs;
 
   @override
@@ -45,6 +46,7 @@ class HomeController extends GetxController {
       print("error : $e");
     }
     isLoading.value = false;
+    isFavorite.value = false;
   }
 
   void save(BuildContext context) async {
@@ -52,6 +54,11 @@ class HomeController extends GetxController {
     isLoading.value = true;
     ImageResponseModel target = model.value.images![0];
     final scaffoldMessenger = ScaffoldMessenger.of(context);
+    
+    if(isFavorite.value) {
+      scaffoldMessenger.showSnackBar(const SnackBar(content: Text("image already saved!")));
+      return;
+    }
 
     var response = await Dio().get(
       imageUrl.value,
@@ -75,8 +82,9 @@ class HomeController extends GetxController {
       );
       print("save to db!");
       await db.insert("images", newImage.toMap());
-      isLoading.value = false;
       scaffoldMessenger.showSnackBar(const SnackBar(content: Text("image saved!")));
+      isLoading.value = false;
+      isFavorite.value = true;
     }
   }
 
@@ -86,10 +94,10 @@ class HomeController extends GetxController {
   }
 
   void onVerticalSwipe(SwipeDirection direction) {
-    if(direction == SwipeDirection.up) get();
+    if(direction == SwipeDirection.up && !isLoading.value) get();
   }
 
   void onHorizontalSwipe(SwipeDirection direction) {
-    if(direction == SwipeDirection.left) Get.toNamed(Routes.gallery);
+    if(direction == SwipeDirection.left && !isLoading.value) Get.toNamed(Routes.gallery);
   }
 }

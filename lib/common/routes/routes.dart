@@ -13,13 +13,11 @@ class Routes {
       name: home,
       page: () => const HomePage(),
       binding: HomeBinding(),
-      transition: Transition.rightToLeftWithFade
     ),
     GetPage(
       name: gallery,
       page: () => const GalleryPage(),
       binding: GalleryBinding(),
-      transition: Transition.leftToRightWithFade
     )
   ];
 }
