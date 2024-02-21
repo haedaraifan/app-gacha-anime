@@ -14,10 +14,11 @@ import 'package:sqflite/sqflite.dart';
 class HomeController extends GetxController {
   Database db = DbHelper.getDb();
   
-  RxString imageUrl = "".obs;
   RxBool isLoading = false.obs;
   RxBool isFavorite = false.obs;
   Rx<WaifuRes> model = WaifuRes().obs;
+  RxString imageUrl = "".obs;
+  RxString artistName = "".obs;
 
   @override
   void onInit() {
@@ -36,10 +37,10 @@ class HomeController extends GetxController {
 
       if(response.statusCode == 200) {
         model.value = waifuResFromMap(response.body);
-        String url = model.value.images![0].url;
 
-        print(url);
-        imageUrl.value = url;
+        print("artist : ${model.value.images![0].artist.name}");
+        imageUrl.value = model.value.images![0].url;
+        artistName.value = model.value.images![0].artist.name;
       }
 
     } catch(e) {

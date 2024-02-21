@@ -27,7 +27,7 @@ class ImageResponseModel {
     final int favorites;
     final String dominantColor;
     final String source;
-    final dynamic artist;
+    final Artist artist;
     final DateTime uploadedAt;
     final dynamic likedAt;
     final bool isNsfw;
@@ -64,7 +64,7 @@ class ImageResponseModel {
         favorites: json["favorites"],
         dominantColor: json["dominant_color"],
         source: json["source"],
-        artist: json["artist"],
+        artist: json["artist"] != null ? Artist.fromMap(json["artist"]) : Artist(),
         uploadedAt: DateTime.parse(json["uploaded_at"]),
         likedAt: json["liked_at"],
         isNsfw: json["is_nsfw"],
@@ -83,7 +83,7 @@ class ImageResponseModel {
         "favorites": favorites,
         "dominant_color": dominantColor,
         "source": source,
-        "artist": artist,
+        "artist": artist.toMap(),
         "uploaded_at": uploadedAt.toIso8601String(),
         "liked_at": likedAt,
         "is_nsfw": isNsfw,
@@ -93,6 +93,46 @@ class ImageResponseModel {
         "url": url,
         "preview_url": previewUrl,
         "tags": List<dynamic>.from(tags.map((x) => x.toMap())),
+    };
+}
+
+class Artist {
+    final int artistId;
+    final String name;
+    final String patreon;
+    final String pixiv;
+    final String twitter;
+    final String deviantArt;
+
+    Artist({
+      this.artistId = 0,
+      String? name,
+      String? patreon,
+      String? pixiv,
+      String? twitter,
+      String? deviantArt,
+    })  : name = name ?? "-",
+          patreon = patreon ?? "",
+          pixiv = pixiv ?? "",
+          twitter = twitter ?? "",
+          deviantArt = deviantArt ?? "";
+
+    factory Artist.fromMap(Map<String, dynamic> json) => Artist(
+        artistId: json["artist_id"],
+        name: json["name"],
+        patreon: json["patreon"],
+        pixiv: json["pixiv"],
+        twitter: json["twitter"],
+        deviantArt: json["deviant_art"],
+    );
+
+    Map<String, dynamic> toMap() => {
+        "artist_id": artistId,
+        "name": name,
+        "patreon": patreon,
+        "pixiv": pixiv,
+        "twitter": twitter,
+        "deviant_art": deviantArt,
     };
 }
 
