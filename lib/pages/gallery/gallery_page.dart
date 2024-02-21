@@ -13,25 +13,29 @@ class GalleryPage extends GetView<GalleryController> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: SimpleGestureDetector(
-          onHorizontalSwipe: controller.onHorizontalSwipe,
-          swipeConfig: const SimpleSwipeConfig(
-            horizontalThreshold: 40,
-            swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct
-          ),
-          child: Obx(
-            () => controller.isLoading.value
-            ? const Center(
-              child: CircularProgressIndicator()
-            )
-            : SingleChildScrollView(
-              child: StaggeredGrid.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-                children: ArrayToWidget.gridItems(controller.images)
-              ),
-            )
+        body: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: SimpleGestureDetector(
+            onHorizontalSwipe: controller.onHorizontalSwipe,
+            swipeConfig: const SimpleSwipeConfig(
+              horizontalThreshold: 40,
+              swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct
+            ),
+            child: Obx(
+              () => controller.isLoading.value
+              ? const Center(
+                child: CircularProgressIndicator()
+              )
+              : SingleChildScrollView(
+                child: StaggeredGrid.count(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 4,
+                  crossAxisSpacing: 4,
+                  children: ArrayToWidget.gridItems(controller.images)
+                ),
+              )
+            ),
           ),
         ),
       )

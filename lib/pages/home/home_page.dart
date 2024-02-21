@@ -25,16 +25,16 @@ class HomePage extends GetView<HomeController> {
         body: SizedBox(
           width: double.infinity,
           height: double.infinity,
-          child: Stack(
-            children:[
-              SimpleGestureDetector(
-                onVerticalSwipe: controller.onVerticalSwipe,
-                onHorizontalSwipe: controller.onHorizontalSwipe,
-                swipeConfig: const SimpleSwipeConfig(
-                  horizontalThreshold: 60,
-                  swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct
-                ),
-                child: Center(
+          child: SimpleGestureDetector(
+            onVerticalSwipe: controller.onVerticalSwipe,
+            onHorizontalSwipe: controller.onHorizontalSwipe,
+            swipeConfig: const SimpleSwipeConfig(
+              horizontalThreshold: 60,
+              swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct
+            ),
+            child: Stack(
+              children: [
+                Center(
                   child: Obx(
                     () => CachedNetworkImage(
                       imageUrl: controller.imageUrl.value,
@@ -44,23 +44,37 @@ class HomePage extends GetView<HomeController> {
                       errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
                   ),
-                )
-              ),
-              Obx(
-                () => controller.isLoading.value
-                ? Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Colors.black.withOpacity(0.2),
-                  child: const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
+                ),
+                Positioned(
+                  bottom: 12,
+                  left: 12,
+                  right: 80,
+                  child: Obx(
+                    () => Text(
+                      "Artist : ${controller.artistName.value}",
+                      style: const TextStyle(
+                        fontSize: 22,
+                        color: Colors.white
+                      ),
+                    )
+                  )
+                ),
+                Obx(
+                  () => controller.isLoading.value
+                  ? Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.black.withOpacity(0.2),
+                    child: const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
+                  )
+                  : const SizedBox()
                 )
-                : const SizedBox()
-              )
-            ]
+              ],
+            ),
           ),
         )
       )
