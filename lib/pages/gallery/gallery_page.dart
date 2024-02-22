@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:gacha/common/widgets/array_to_widget.dart';
+import 'package:gacha/common/widgets/grid_view_item.dart';
 import 'package:get/get.dart';
 import 'package:gacha/pages/gallery/gallery_controller.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
@@ -13,6 +13,16 @@ class GalleryPage extends GetView<GalleryController> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
+        floatingActionButton: FloatingActionButton(
+          foregroundColor: Colors.pink,
+          backgroundColor: Colors.white,
+          onPressed: controller.deleteModeToggle,
+          child: Obx(
+            () => controller.isDeleteModeActive.value
+            ? const Icon(Icons.cancel)
+            : const Icon(Icons.delete)
+          ),
+        ),
         body: SizedBox(
           width: double.infinity,
           height: double.infinity,
@@ -25,15 +35,27 @@ class GalleryPage extends GetView<GalleryController> {
             child: Obx(
               () => controller.isLoading.value
               ? const Center(
-                child: CircularProgressIndicator()
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                )
               )
-              : SingleChildScrollView(
-                child: StaggeredGrid.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 4,
-                  crossAxisSpacing: 4,
-                  children: ArrayToWidget.gridItems(controller.images)
+              : MasonryGridView.builder(
+                itemCount: controller.images.length,
+                gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2
                 ),
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: Obx(
+                    () => controller.isDeleteModeActive.value
+                    ? GridViewItem.buildDeleteMode(
+                      context,
+                      controller.images[index],
+                      () => controller.delete(controller.images[index])
+                    )
+                    : GridViewItem.build(controller.images[index])
+                  )
+                )
               )
             ),
           ),

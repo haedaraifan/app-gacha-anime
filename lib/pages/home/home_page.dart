@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gacha/common/widgets/custom_text.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gacha/pages/home/home_controller.dart';
@@ -15,7 +16,7 @@ class HomePage extends GetView<HomeController> {
         floatingActionButton: FloatingActionButton(
           foregroundColor: Colors.pink,
           backgroundColor: Colors.white,
-          onPressed: () => controller.save(context),
+          onPressed: controller.save,
           child: Obx(
             () => controller.isFavorite.value
             ? const Icon(Icons.favorite)
@@ -50,12 +51,10 @@ class HomePage extends GetView<HomeController> {
                   left: 12,
                   right: 80,
                   child: Obx(
-                    () => Text(
+                    () => CustomText.withCustomPoppinsFont(
                       "Artist : ${controller.artistName.value}",
-                      style: const TextStyle(
-                        fontSize: 22,
-                        color: Colors.white
-                      ),
+                      fontSize: 22,
+                      color: Colors.white
                     )
                   )
                 ),

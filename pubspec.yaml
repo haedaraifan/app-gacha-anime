@@ -38,12 +38,12 @@ dependencies:
   get:
   http:
   sqflite:
-  dio:
-  image_gallery_saver:
+  path_provider:
   flutter_staggered_grid_view:
   cached_network_image:
   simple_gesture_detector:
   insta_image_viewer:
+  google_fonts:
 
 dev_dependencies:
   flutter_test:
